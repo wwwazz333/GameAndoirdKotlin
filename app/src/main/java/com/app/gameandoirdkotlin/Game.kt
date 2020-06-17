@@ -28,7 +28,7 @@ class Game(context:Context, screenSizeWidth:Int, screenSizeHeight: Int): Surface
         thread = MainThread(holder, this)
         isFocusable = true
         playerPoint = Point()
-        player = RectPlayer(Rect(0,200,200,0),Color.BLUE)
+        player = RectPlayer(Rect(0,200,200,0),Color.RED)
         player.update(playerPoint!!)
         this.screenSizeWidth = screenSizeWidth
         this.screenSizeHeight = screenSizeHeight
