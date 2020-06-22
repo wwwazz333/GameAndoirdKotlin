@@ -1,23 +1,19 @@
 package com.app.gameandoirdkotlin
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Rect
+import android.graphics.*
+import android.os.Build
+import android.util.Base64
 import android.view.MotionEvent
-import android.view.SurfaceHolder
-import android.view.SurfaceView
 import android.view.View
-import android.widget.ImageView
-import kotlinx.android.synthetic.main.activity_game.view.*
-import kotlin.concurrent.thread
+import androidx.annotation.RequiresApi
+
 
 class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight: Int) : View(context) {
 
-    val perso:Rect
-    var x:Int = 0
-    var y:Int = 0
+    val perso:Bitmap
+    var persoX = 0F
+    var persoY = 0F
     var toLeft = false
     var toRight = false
     val screenSizeWidth:Int
@@ -27,9 +23,13 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight: Int) : V
 
 
     init {
-        perso = Rect()
+        var bitmap = BitmapFactory.decodeResource(resources, R.drawable.stickman)
+        perso = Bitmap.createScaledBitmap(bitmap, (bitmap.width*0.2).toInt(),
+            (bitmap.height*0.2).toInt(),true)
+        println("scale of perso picture : ${perso.width} * ${perso.height}")
         persoColor = Paint()
         persoColor.color = Color.RED
+
 
         update()
         this.screenSizeWidth = screenSizeWidth
@@ -37,7 +37,7 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight: Int) : V
     }
 
     fun update(){
-        perso.set(x,y,x+50,y+50)
+        //perso.set(x,y,x+50,y+50)
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -64,17 +64,22 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight: Int) : V
         cnt++
 
         if(toLeft) {
-            x-=15
+            persoX-=15
         }
         if(toRight){
-            x+=15
+            persoX+=15
         }
 
 
         update()
 
         canvas!!.drawColor(Color.BLACK)
-        canvas!!.drawRect(perso, persoColor)
+
+
+        canvas!!.drawBitmap(perso,persoX,persoY,Paint())
+
+
+        //canvas!!.drawRect(perso, persoColor)
 
         invalidate()
     }

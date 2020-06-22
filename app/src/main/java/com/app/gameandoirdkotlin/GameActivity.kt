@@ -1,11 +1,12 @@
 package com.app.gameandoirdkotlin
 
+import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.WindowManager
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-
 
 class GameActivity : AppCompatActivity() {
 
