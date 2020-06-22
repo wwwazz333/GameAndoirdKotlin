@@ -3,6 +3,7 @@ package com.app.gameandoirdkotlin
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -24,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun actualise(){
-        textView.text = nombreQuestion.toString()
+        //textView.text = nombreQuestion.toString()
     }
 
     fun restor(){
@@ -55,6 +56,11 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    fun onClickSupp(view: View){
+        var intent = Intent(Intent.ACTION_DELETE)
+        intent.setData(Uri.parse("package:com.android.chrome"))
+        startActivity(intent)
+    }
     fun onClickExit(view: View){
         finish()
         moveTaskToBack(true);
