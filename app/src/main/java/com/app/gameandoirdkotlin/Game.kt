@@ -11,7 +11,6 @@ import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 
-
 class Game(context:Context, screenSizeWidth:Int, screenSizeHeight: Int): SurfaceView(context),SurfaceHolder.Callback {
     private val thread:MainThread
     private val player:RectPlayer
