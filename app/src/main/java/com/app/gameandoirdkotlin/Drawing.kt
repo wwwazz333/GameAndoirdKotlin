@@ -19,12 +19,14 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight: Int) : V
     val screenSizeWidth:Int
     val screenSizeHeight:Int
     var cnt = 0
+    val p:Player
 
     init {
         var bitmap = BitmapFactory.decodeResource(this.resources, R.drawable.stickman)
         perso = Bitmap.createScaledBitmap(bitmap, (bitmap.width*0.2).toInt(),
             (bitmap.height*0.2).toInt(),true)
         println("scale of perso picture : ${perso.width} * ${perso.height}")
+        p = Player(this, 50, 50, R.drawable.stickman)
 
 
         update()
@@ -59,20 +61,16 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight: Int) : V
         super.draw(canvas)
         cnt++
 
-        if(toLeft) {
-            persoX-=15
-        }
-        if(toRight){
-            persoX+=15
-        }
+        p.deplacement(toRight, toLeft)
 
 
-        update()
+        //update()
 
-        canvas!!.drawColor(Color.BLACK)
+        canvas!!.drawColor(Color.BLACK)//background
 
 
-        canvas!!.drawBitmap(perso,persoX,persoY,Paint())
+        //canvas!!.drawBitmap(perso,persoX,persoY,Paint())
+        p.draw(canvas)
 
 
         //canvas!!.drawRect(perso, persoColor)

@@ -1,5 +1,6 @@
 package com.app.gameandoirdkotlin
 
+import android.app.PendingIntent.getActivity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -59,9 +60,7 @@ class MainActivity : AppCompatActivity() {
     }
     fun onClickExit(view: View){
         finish()
-        moveTaskToBack(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            finishAndRemoveTask()
-        }
+        moveTaskToBack(true)
+        System.exit(0)
     }
 }
