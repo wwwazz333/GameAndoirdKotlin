@@ -18,7 +18,7 @@
         android:layout_marginTop="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/canevaGame" />
+        app:layout_constraintTop_toBottomOf="@+id/GameButton" />
 
     <Button
         android:id="@+id/button"
@@ -46,7 +46,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button" />
     <Button
-        android:id="@+id/fullScreenBtn"
+        android:id="@+id/GameButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
@@ -56,17 +56,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/paraBtn" />
-    <Button
-        android:id="@+id/canevaGame"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:onClick="onClickCanevaGame"
-        android:text = "Game2.0"
-        android:background="@drawable/arrondi_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fullScreenBtn" />
+
     <Button
         android:id="@+id/exitBtn"
         android:layout_width="wrap_content"

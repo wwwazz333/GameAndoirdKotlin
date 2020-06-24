@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -51,11 +52,6 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun onClickCanevaGame(view: View){
-        val intent = Intent(this, CanevaGame::class.java)
-        startActivity(intent)
-    }
-
     fun onClickSupp(view: View){
         var intent = Intent(Intent.ACTION_DELETE)
         intent.setData(Uri.parse("package:com.android.chrome"))
@@ -64,5 +60,8 @@ class MainActivity : AppCompatActivity() {
     fun onClickExit(view: View){
         finish()
         moveTaskToBack(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            finishAndRemoveTask()
+        }
     }
 }
