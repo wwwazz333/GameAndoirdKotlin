@@ -2,7 +2,6 @@ package com.app.gameandoirdkotlin
 
 import android.content.Context
 import android.graphics.*
-import android.os.Build
 import android.util.Base64
 import android.view.MotionEvent
 import android.view.View
@@ -11,23 +10,17 @@ import androidx.annotation.RequiresApi
 
 class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight: Int) : View(context) {
 
-    val perso:Bitmap
-    var persoX = 0F
-    var persoY = 0F
     var toLeft = false
     var toRight = false
     val screenSizeWidth:Int
     val screenSizeHeight:Int
     var cnt = 0
     val p:Player
+    val w:Rectangle
 
     init {
-        var bitmap = BitmapFactory.decodeResource(this.resources, R.drawable.stickman)
-        perso = Bitmap.createScaledBitmap(bitmap, (bitmap.width*0.2).toInt(),
-            (bitmap.height*0.2).toInt(),true)
-        println("scale of perso picture : ${perso.width} * ${perso.height}")
-        p = Player(this, 50, 50, R.drawable.stickman)
-
+        p = Player(this,0,0,R.drawable.stickman)
+        w = Rectangle(500,0,50, 50, Color.RED)
 
         update()
         this.screenSizeWidth = screenSizeWidth
@@ -62,15 +55,16 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight: Int) : V
         cnt++
 
         p.deplacement(toRight, toLeft)
+        p.touch(w)
 
 
         //update()
 
         canvas!!.drawColor(Color.BLACK)//background
 
-
         //canvas!!.drawBitmap(perso,persoX,persoY,Paint())
         p.draw(canvas)
+        w.draw(canvas)
 
 
         //canvas!!.drawRect(perso, persoColor)
