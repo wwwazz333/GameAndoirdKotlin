@@ -19,16 +19,12 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight: Int) : V
     val screenSizeWidth:Int
     val screenSizeHeight:Int
     var cnt = 0
-    val persoColor:Paint
-
 
     init {
-        var bitmap = BitmapFactory.decodeResource(resources, R.drawable.stickman)
+        var bitmap = BitmapFactory.decodeResource(this.resources, R.drawable.stickman)
         perso = Bitmap.createScaledBitmap(bitmap, (bitmap.width*0.2).toInt(),
             (bitmap.height*0.2).toInt(),true)
         println("scale of perso picture : ${perso.width} * ${perso.height}")
-        persoColor = Paint()
-        persoColor.color = Color.RED
 
 
         update()
