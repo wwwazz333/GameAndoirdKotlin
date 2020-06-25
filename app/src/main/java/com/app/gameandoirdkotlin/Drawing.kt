@@ -57,18 +57,20 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight: Int) : V
     override fun draw(canvas: Canvas?) {
         super.draw(canvas)
         cnt++
-        p.touch(w)
+        p.coll(allRect)
         p.deplacement(toRight, toLeft)
+        p.gravity(screenSizeHeight)
 
 
 
         //update()
-
+        //dessin
         canvas!!.drawColor(Color.BLACK)//background
 
         p.draw(canvas)
-        allRect[0].draw(canvas)
-
+        for(rect in allRect){
+            rect.draw(canvas)
+        }
 
         invalidate()
     }

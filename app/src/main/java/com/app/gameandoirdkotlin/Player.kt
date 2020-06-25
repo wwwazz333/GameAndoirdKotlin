@@ -46,14 +46,27 @@ class Player(surface: Drawing, x:Int, y:Int, idImage:Int? = null) {
         x+=nbr
     }
 
-    fun touch(rect: Rectangle){
-        if(rectPlayer.right >= rect.x && rectPlayer.left <= rect.x+rect.w && rectPlayer.top <= rect.y+rect.h && rectPlayer.bottom >= rect.y){
-            if(rectPlayer.centerX() < rect.rect.centerX()) canToRight = false
-            if(rectPlayer.centerX() > rect.rect.centerX()) canToLeft = false
-        }else{
-            canToLeft = true
-            canToRight = true
+    fun touch(rect: Rectangle):Boolean{
+        return rectPlayer.right >= rect.x && rectPlayer.left <= rect.x+rect.w && rectPlayer.top <= rect.y+rect.h && rectPlayer.bottom >= rect.y
+    }
+    fun coll(l: List<Rectangle>){
+        for (rect in l){
+            if(touch(rect)){
+                if(rectPlayer.centerX() < rect.rect.centerX()) canToRight = false
+                if(rectPlayer.centerX() > rect.rect.centerX()) canToLeft = false
+                return
+            }
         }
+        canToLeft = true
+        canToRight = true
+
+    }
+
+    fun gravity(sol:Int){
+        if (rectPlayer.bottom > sol){
+            y+=30
+        }
+        update()
     }
 
     fun resize(size:Float){
