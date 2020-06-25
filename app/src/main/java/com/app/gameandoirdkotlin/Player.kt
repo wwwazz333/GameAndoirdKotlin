@@ -61,9 +61,12 @@ class Player(surface: Drawing, x:Int, y:Int, idImage:Int? = null) {
         canToRight = true
 
     }
-
+    fun jump(){
+        y-=500
+        update()
+    }
     fun gravity(sol:Int){
-        if (rectPlayer.bottom > sol){
+        if (rectPlayer.bottom < sol){
             y+=30
         }
         update()

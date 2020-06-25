@@ -18,12 +18,15 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight: Int) : V
     val p:Player
     val w:Rectangle
     var allRect:List<Rectangle>
+    val white:Paint = Paint()
 
     init {
         p = Player(this,0,0,R.drawable.stickman)
         w = Rectangle(500,0,50, 50, Color.RED)
 
         allRect = listOf<Rectangle>(w)
+
+        white.color = Color.WHITE
 
 
 
@@ -37,10 +40,12 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight: Int) : V
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
+        TODO("multi touch")
         when (event!!.action) {
             MotionEvent.ACTION_DOWN -> {
-                if (event!!.x < screenSizeWidth / 3) toLeft = true
-                else if (event!!.x > (screenSizeWidth / 3) * 2) toRight = true
+                if (event!!.x < screenSizeWidth / 5) toLeft = true
+                if (event!!.x > (screenSizeWidth / 5) && event!!.x < (screenSizeWidth/5)*2) toRight = true
+                if (event!!.x > (screenSizeWidth/5)*4) p.jump()
 
             }
             MotionEvent.ACTION_UP -> {
@@ -57,6 +62,7 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight: Int) : V
     override fun draw(canvas: Canvas?) {
         super.draw(canvas)
         cnt++
+
         p.coll(allRect)
         p.deplacement(toRight, toLeft)
         p.gravity(screenSizeHeight)
@@ -71,6 +77,9 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight: Int) : V
         for(rect in allRect){
             rect.draw(canvas)
         }
+        canvas!!.drawLine((screenSizeWidth / 5).toFloat(), 0F, (screenSizeWidth / 5).toFloat(), screenSizeHeight.toFloat(),white)
+        canvas!!.drawLine(((screenSizeWidth/5)*2).toFloat(), 0F, ((screenSizeWidth / 5)*2).toFloat(), screenSizeHeight.toFloat(),white)
+        canvas!!.drawLine(((screenSizeWidth/5)*4).toFloat(), 0F, ((screenSizeWidth / 5)*4).toFloat(), screenSizeHeight.toFloat(),white)
 
         invalidate()
     }
