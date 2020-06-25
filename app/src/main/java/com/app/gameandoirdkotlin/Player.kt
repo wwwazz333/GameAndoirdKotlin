@@ -47,13 +47,12 @@ class Player(surface: Drawing, x:Int, y:Int, idImage:Int? = null) {
     }
 
     fun touch(rect: Rectangle){
-        if(rectPlayer.contains(rect.rect)){
-            if(rectPlayer.right < rect.x) canToRight = false
-            else if(rectPlayer.left > rect.x+rect.w) canToLeft = false
-            else{
-                canToLeft = true
-                canToRight = true
-            }
+        if(rectPlayer.right >= rect.x && rectPlayer.left <= rect.x+rect.w && rectPlayer.top <= rect.y+rect.h && rectPlayer.bottom >= rect.y){
+            if(rectPlayer.centerX() < rect.rect.centerX()) canToRight = false
+            if(rectPlayer.centerX() > rect.rect.centerX()) canToLeft = false
+        }else{
+            canToLeft = true
+            canToRight = true
         }
     }
 

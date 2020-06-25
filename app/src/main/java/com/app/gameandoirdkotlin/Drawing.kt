@@ -20,7 +20,7 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight: Int) : V
 
     init {
         p = Player(this,0,0,R.drawable.stickman)
-        w = Rectangle(500,0,50, 50, Color.RED)
+        w = Rectangle(500,1000,50, 50, Color.RED)
 
         update()
         this.screenSizeWidth = screenSizeWidth
@@ -53,9 +53,9 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight: Int) : V
     override fun draw(canvas: Canvas?) {
         super.draw(canvas)
         cnt++
-
-        p.deplacement(toRight, toLeft)
         p.touch(w)
+        p.deplacement(toRight, toLeft)
+
 
 
         //update()
