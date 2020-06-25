@@ -17,10 +17,15 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight: Int) : V
     var cnt = 0
     val p:Player
     val w:Rectangle
+    var allRect:List<Rectangle>
 
     init {
         p = Player(this,0,0,R.drawable.stickman)
-        w = Rectangle(500,1000,50, 50, Color.RED)
+        w = Rectangle(500,0,50, 50, Color.RED)
+
+        allRect = listOf<Rectangle>(w)
+
+
 
         update()
         this.screenSizeWidth = screenSizeWidth
@@ -45,7 +50,6 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight: Int) : V
             }
         }
 
-        invalidate()
         return true
     }
 
@@ -62,12 +66,9 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight: Int) : V
 
         canvas!!.drawColor(Color.BLACK)//background
 
-        //canvas!!.drawBitmap(perso,persoX,persoY,Paint())
         p.draw(canvas)
-        w.draw(canvas)
+        allRect[0].draw(canvas)
 
-
-        //canvas!!.drawRect(perso, persoColor)
 
         invalidate()
     }
