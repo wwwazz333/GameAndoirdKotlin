@@ -38,6 +38,7 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight: Int) : V
     fun update(){
         //perso.set(x,y,x+50,y+50)
     }
+    
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         TODO("multi touch")
