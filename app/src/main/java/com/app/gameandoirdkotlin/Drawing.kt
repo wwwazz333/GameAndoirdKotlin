@@ -8,7 +8,7 @@ import android.view.View
 import androidx.annotation.RequiresApi
 
 
-class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight: Int) : View(context) {
+class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : View(context) {
 
     var toLeft = false
     var toRight = false
@@ -21,8 +21,11 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight: Int) : V
     val white:Paint = Paint()
 
     init {
+        this.screenSizeWidth = screenSizeWidth
+        this.screenSizeHeight = screenSizeHeight
+
         p = Player(this,0,0,R.drawable.stickman)
-        w = Rectangle(500,0,50, 50, Color.RED)
+        w = Rectangle(500,screenSizeHeight-100,50, 50, Color.RED)
 
         allRect = listOf<Rectangle>(w)
 
@@ -31,8 +34,6 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight: Int) : V
 
 
         update()
-        this.screenSizeWidth = screenSizeWidth
-        this.screenSizeHeight = screenSizeHeight
     }
 
     fun update(){
@@ -41,7 +42,7 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight: Int) : V
     
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        TODO("multi touch")
+        //TODO("multi touch")
         when (event!!.action) {
             MotionEvent.ACTION_DOWN -> {
                 if (event!!.x < screenSizeWidth / 5) toLeft = true
@@ -64,9 +65,10 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight: Int) : V
         super.draw(canvas)
         cnt++
 
-        p.coll(allRect)
-        p.deplacement(toRight, toLeft)
-        p.gravity(screenSizeHeight)
+        //p.coll(allRect)
+        p.update()
+        p.deplacement(toRight, toLeft,allRect)
+        p.gravity(allRect)
 
 
 
