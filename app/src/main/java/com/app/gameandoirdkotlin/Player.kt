@@ -4,7 +4,13 @@ import android.graphics.*
 import java.lang.Thread.sleep
 import kotlin.concurrent.thread
 
+
+const val timeJump = 13
+
+
 class Player(surface: Drawing, x:Int, y:Int, idImage:Int? = null) {
+
+
 
     var x:Int = x
     var y:Int = y
@@ -43,9 +49,9 @@ class Player(surface: Drawing, x:Int, y:Int, idImage:Int? = null) {
         if(toRight && canToRight){
             move(15,list)
         }
-        if(isJumping && cntJump < 10) {
+        if(isJumping && cntJump <= timeJump) {
             cntJump++
-            y -= 30
+            y -= (surface!!.height/3)/timeJump
             update()
         }
         else{

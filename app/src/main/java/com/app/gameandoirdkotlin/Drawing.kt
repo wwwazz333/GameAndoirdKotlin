@@ -16,7 +16,6 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
     val screenSizeHeight:Int
     var cnt = 0
     val p:Player
-    val w:Rectangle
     var allRect:List<Rectangle>
     val white:Paint = Paint()
     var touchX = 0F
@@ -26,10 +25,12 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
         this.screenSizeWidth = screenSizeWidth
         this.screenSizeHeight = screenSizeHeight
 
-        p = Player(this,0,500,R.drawable.stickman)
-        w = Rectangle(1000,screenSizeHeight-150,500, 150, Color.RED)
+        println("$screenSizeWidth * $screenSizeHeight")
 
-        allRect = listOf<Rectangle>(w)
+        p = Player(this,0,500,R.drawable.stickman)
+        val w = Rectangle(((screenSizeWidth/3)*0.5).toInt(),(screenSizeHeight/3)*2,screenSizeWidth/5, 30, Color.RED)
+        val w1 = Rectangle(((screenSizeWidth/3)*1.5).toInt(),(screenSizeHeight/3)*2,screenSizeWidth/5, 30, Color.RED)
+        allRect = listOf<Rectangle>(w, w1)
 
         white.color = Color.WHITE
 
@@ -83,7 +84,6 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
         p.gravity(allRect)
 
 
-        //update()
         //dessin
         canvas!!.drawColor(Color.BLACK)//background
 
