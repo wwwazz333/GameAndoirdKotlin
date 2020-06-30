@@ -21,6 +21,8 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
     var touchX = 0F
     var touchY = 0F
 
+    //TODO("creat IA and diviser surface")
+
     init {
         this.screenSizeWidth = screenSizeWidth
         this.screenSizeHeight = screenSizeHeight
