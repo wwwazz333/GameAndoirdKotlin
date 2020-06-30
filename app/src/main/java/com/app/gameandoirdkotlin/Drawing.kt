@@ -45,8 +45,6 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
 
-
-
         val pointerCount: Int = event!!.pointerCount
 
 
