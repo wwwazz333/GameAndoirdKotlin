@@ -26,8 +26,8 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
         this.screenSizeWidth = screenSizeWidth
         this.screenSizeHeight = screenSizeHeight
 
-        p = Player(this,0,0,R.drawable.stickman)
-        w = Rectangle(500,screenSizeHeight-100,50, 50, Color.RED)
+        p = Player(this,0,500,R.drawable.stickman)
+        w = Rectangle(1000,screenSizeHeight-150,500, 150, Color.RED)
 
         allRect = listOf<Rectangle>(w)
 
@@ -49,15 +49,15 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
 
 
         for(i in 0..pointerCount-1){
-            if(event!!.getX(i) > (screenSizeWidth / 5) && event!!.getX(i) < (screenSizeWidth/5)*2) toRight = true
+            if(event.getX(i) > (screenSizeWidth / 5) && event.getX(i) < (screenSizeWidth/5)*2) toRight = true
 
-            if (event!!.getX(i) < screenSizeWidth / 5) toLeft = true
+            if (event.getX(i) < screenSizeWidth / 5) toLeft = true
 
-            if (event!!.getX(i) > (screenSizeWidth/5)*4) p.jump()
+            if (event.getX(i) > (screenSizeWidth/5)*4) p.jump()
         }
 
 
-        when (event!!.action) {
+        when (event.action) {
 
             MotionEvent.ACTION_DOWN -> {
 
@@ -83,7 +83,6 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
         p.gravity(allRect)
 
 
-
         //update()
         //dessin
         canvas!!.drawColor(Color.BLACK)//background
@@ -92,9 +91,9 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
         for(rect in allRect){
             rect.draw(canvas)
         }
-        canvas!!.drawLine((screenSizeWidth / 5).toFloat(), 0F, (screenSizeWidth / 5).toFloat(), screenSizeHeight.toFloat(),white)
-        canvas!!.drawLine(((screenSizeWidth/5)*2).toFloat(), 0F, ((screenSizeWidth / 5)*2).toFloat(), screenSizeHeight.toFloat(),white)
-        canvas!!.drawLine(((screenSizeWidth/5)*4).toFloat(), 0F, ((screenSizeWidth / 5)*4).toFloat(), screenSizeHeight.toFloat(),white)
+        canvas.drawLine((screenSizeWidth / 5).toFloat(), 0F, (screenSizeWidth / 5).toFloat(), screenSizeHeight.toFloat(),white)
+        canvas.drawLine(((screenSizeWidth/5)*2).toFloat(), 0F, ((screenSizeWidth / 5)*2).toFloat(), screenSizeHeight.toFloat(),white)
+        canvas.drawLine(((screenSizeWidth/5)*4).toFloat(), 0F, ((screenSizeWidth / 5)*4).toFloat(), screenSizeHeight.toFloat(),white)
 
         invalidate()
     }

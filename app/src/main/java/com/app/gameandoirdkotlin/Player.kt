@@ -1,9 +1,10 @@
 package com.app.gameandoirdkotlin
 
 import android.graphics.*
+import java.lang.Thread.sleep
+import kotlin.concurrent.thread
 
 class Player(surface: Drawing, x:Int, y:Int, idImage:Int? = null) {
-    //TODO("rect + bitmap => sync")
 
     var x:Int = x
     var y:Int = y
@@ -13,6 +14,8 @@ class Player(surface: Drawing, x:Int, y:Int, idImage:Int? = null) {
     var canJump = true
     val image:Bitmap
     var surface:Drawing? = null
+    var isJumping = false
+    var cntJump = 0
 
     init {
         this.surface = surface
@@ -24,7 +27,7 @@ class Player(surface: Drawing, x:Int, y:Int, idImage:Int? = null) {
     }
 
     fun update(){
-        rectPlayer.set(this.x,this.y,this.x+image!!.width,this.y+image!!.height)
+        rectPlayer.set(this.x,this.y,this.x+image.width,this.y+image.height)
 
     }
     fun draw(canvas: Canvas?){
@@ -39,6 +42,15 @@ class Player(surface: Drawing, x:Int, y:Int, idImage:Int? = null) {
         }
         if(toRight && canToRight){
             move(15,list)
+        }
+        if(isJumping && cntJump < 10) {
+            cntJump++
+            y -= 30
+            update()
+        }
+        else{
+            isJumping = false
+            cntJump = 0
         }
     }
 
@@ -68,17 +80,16 @@ class Player(surface: Drawing, x:Int, y:Int, idImage:Int? = null) {
     }
 
     fun jump(){
-        if(canJump) {
-            y-=500
-            update()
+        if(!isJumping && canJump) {
+            isJumping = true
         }
     }
     fun gravity(l:List<Rectangle>){
-        if (rectPlayer.bottom < surface!!.height && !touchOne(l)){
-            y += 10
+        if (rectPlayer.bottom < surface!!.height && !touchOne(l) && !isJumping){
+            y += 15
             update()
             if(touchOne(l)) {
-                y -= 10
+                y -= 15
                 canJump = true
             }
             else canJump = false
