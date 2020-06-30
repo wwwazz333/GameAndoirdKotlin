@@ -1,11 +1,11 @@
 package com.app.gameandoirdkotlin
 
 import android.content.Context
-import android.graphics.*
-import android.util.Base64
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
 import android.view.MotionEvent
 import android.view.View
-import androidx.annotation.RequiresApi
 
 
 class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : View(context) {
@@ -45,24 +45,30 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         //TODO("multi touch")
-        println("${event!!.x}")
-        touchX = event!!.x
-        touchY = event!!.y
+
+
+
+        val pointerCount: Int = event!!.pointerCount
+
+
+        for(i in 0..pointerCount-1){
+            if(event!!.getX(i) > (screenSizeWidth / 5) && event!!.getX(i) < (screenSizeWidth/5)*2) toRight = true
+
+            if (event!!.getX(i) < screenSizeWidth / 5) toLeft = true
+
+            if (event!!.getX(i) > (screenSizeWidth/5)*4) p.jump()
+        }
+
 
         when (event!!.action) {
+
             MotionEvent.ACTION_DOWN -> {
-                //if(toLeft && event!!.x > (screenSizeWidth)/5 && event!!.x < (screenSizeWidth/5)*2) toLeft = false
-
-                if(event!!.x > (screenSizeWidth / 5) && event!!.x < (screenSizeWidth/5)*2) toRight = true
-
-                if (event!!.x < screenSizeWidth / 5) toLeft = true
-
-                if (event!!.x > (screenSizeWidth/5)*4) p.jump()
 
             }
             MotionEvent.ACTION_UP -> {
-                toLeft = false
                 toRight = false
+
+                toLeft = false
 
             }
         }
