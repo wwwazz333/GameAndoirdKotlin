@@ -18,8 +18,6 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
     val p:Player
     var allRect:List<Rectangle>
     val white:Paint = Paint()
-    var touchX = 0F
-    var touchY = 0F
 
     //TODO("creat IA and diviser surface")
 
