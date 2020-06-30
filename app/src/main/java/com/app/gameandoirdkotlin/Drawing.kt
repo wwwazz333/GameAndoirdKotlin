@@ -19,6 +19,8 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
     val w:Rectangle
     var allRect:List<Rectangle>
     val white:Paint = Paint()
+    var touchX = 0F
+    var touchY = 0F
 
     init {
         this.screenSizeWidth = screenSizeWidth
@@ -43,10 +45,18 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         //TODO("multi touch")
+        println("${event!!.x}")
+        touchX = event!!.x
+        touchY = event!!.y
+
         when (event!!.action) {
             MotionEvent.ACTION_DOWN -> {
+                //if(toLeft && event!!.x > (screenSizeWidth)/5 && event!!.x < (screenSizeWidth/5)*2) toLeft = false
+
+                if(event!!.x > (screenSizeWidth / 5) && event!!.x < (screenSizeWidth/5)*2) toRight = true
+
                 if (event!!.x < screenSizeWidth / 5) toLeft = true
-                if (event!!.x > (screenSizeWidth / 5) && event!!.x < (screenSizeWidth/5)*2) toRight = true
+
                 if (event!!.x > (screenSizeWidth/5)*4) p.jump()
 
             }
@@ -65,7 +75,6 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
         super.draw(canvas)
         cnt++
 
-        //p.coll(allRect)
         p.update()
         p.deplacement(toRight, toLeft,allRect)
         p.gravity(allRect)

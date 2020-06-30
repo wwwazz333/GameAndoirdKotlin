@@ -68,16 +68,24 @@ class Player(surface: Drawing, x:Int, y:Int, idImage:Int? = null) {
     }
 
     fun jump(){
-        y-=500
-        update()
+        if(canJump) {
+            y-=500
+            update()
+        }
     }
     fun gravity(l:List<Rectangle>){
         if (rectPlayer.bottom < surface!!.height && !touchOne(l)){
             y += 10
             update()
-            if(touchOne(l)) y -= 10
+            if(touchOne(l)) {
+                y -= 10
+                canJump = true
+            }
+            else canJump = false
         }
-
+        else{
+            canJump = true
+        }
 
         update()
     }
