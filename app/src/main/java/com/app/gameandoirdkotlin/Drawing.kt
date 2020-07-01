@@ -29,8 +29,8 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
 
         println("$screenSizeWidth * $screenSizeHeight")
 
-        player = Player(this,0,500,R.drawable.player1)
-        enemy = Enemy(this,screenSizeWidth-100,500,R.drawable.enemy1_right)
+        player = Player(this,0,500)
+        enemy = Enemy(this,screenSizeWidth-100,500)
         val w = Rectangle(((screenSizeWidth/3)*0.5).toInt(),(screenSizeHeight/3)*2,screenSizeWidth/5, 30, Color.RED)
         val w1 = Rectangle(((screenSizeWidth/3)*1.5).toInt(),(screenSizeHeight/3)*2,screenSizeWidth/5, 30, Color.RED)
         allRect = listOf<Rectangle>(w, w1)

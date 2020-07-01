@@ -4,13 +4,13 @@ import android.graphics.*
 
 
 
-class Player(surface: Drawing, x:Int, y:Int, idImage:Int? = null) {
+class Player(surface: Drawing, x:Int, y:Int) {
 
 
 
     var x:Int = x
     var y:Int = y
-    val rectPlayer:Rect
+    val rect:Rect
     var canJump = true
     val imageToRight:Bitmap
     val imageToLeft:Bitmap
@@ -28,21 +28,19 @@ class Player(surface: Drawing, x:Int, y:Int, idImage:Int? = null) {
         bitmapTemp = BitmapFactory.decodeResource(surface.resources, R.drawable.player1_left)
         imageToLeft = Bitmap.createScaledBitmap(bitmapTemp, (bitmapTemp.width*0.2).toInt(),
             (bitmapTemp.height*0.2).toInt(),true)
-        rectPlayer = Rect(this.x,this.y,this.x+imageToRight.width,this.y+imageToRight.height)
+        rect = Rect(this.x,this.y,this.x+imageToRight.width,this.y+imageToRight.height)
 
     }
 
     fun update(){
-        rectPlayer.set(this.x,this.y,this.x+imageToRight.width,this.y+imageToRight.height)
+        rect.set(this.x,this.y,this.x+imageToRight.width,this.y+imageToRight.height)
 
     }
     fun draw(canvas: Canvas?){
         update()
 
-        if(direction == 1)canvas!!.drawBitmap(imageToRight,rectPlayer.left.toFloat(),rectPlayer.top.toFloat(), Paint())
-        else if(direction == 0)canvas!!.drawBitmap(imageToLeft,rectPlayer.left.toFloat(),rectPlayer.top.toFloat(), Paint())
-
-
+        if(direction == 1)canvas!!.drawBitmap(imageToRight,rect.left.toFloat(),rect.top.toFloat(), Paint())
+        else if(direction == 0)canvas!!.drawBitmap(imageToLeft,rect.left.toFloat(),rect.top.toFloat(), Paint())
     }
 
     fun actions(toRight:Boolean, toLeft:Boolean, list: List<Rectangle>){
@@ -80,8 +78,9 @@ class Player(surface: Drawing, x:Int, y:Int, idImage:Int? = null) {
         update()
     }
 
+
     fun touch(rect: Rectangle):Boolean{
-        return rectPlayer.right >= rect.x && rectPlayer.left <= rect.x+rect.w && rectPlayer.top <= rect.y+rect.h && rectPlayer.bottom >= rect.y
+        return this.rect.right >= rect.x && this.rect.left <= rect.x+rect.w && this.rect.top <= rect.y+rect.h && this.rect.bottom >= rect.y
     }
 
     fun touchOne(list:List<Rectangle>):Boolean{
@@ -97,7 +96,7 @@ class Player(surface: Drawing, x:Int, y:Int, idImage:Int? = null) {
         }
     }
     fun gravity(l:List<Rectangle>){
-        if (rectPlayer.bottom < surface!!.height && !touchOne(l) && !isJumping){
+        if (rect.bottom < surface!!.height && !touchOne(l) && !isJumping){
             y += 15
             update()
             if(touchOne(l)) {
