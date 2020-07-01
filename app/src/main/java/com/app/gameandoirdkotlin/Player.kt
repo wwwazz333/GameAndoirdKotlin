@@ -11,39 +11,45 @@ class Player(surface: Drawing, x:Int, y:Int, idImage:Int? = null) {
     var x:Int = x
     var y:Int = y
     val rectPlayer:Rect
-    var canToRight = true
-    var canToLeft = true
     var canJump = true
-    val image:Bitmap
+    val imageToRight:Bitmap
+    val imageToLeft:Bitmap
     var surface:Drawing? = null
     var isJumping = false
     var cntJump = 0
+    var direction:Int = 1
 
     init {
         this.surface = surface
-        var bitmapTemp = BitmapFactory.decodeResource(surface.resources, idImage!!)
-        image = Bitmap.createScaledBitmap(bitmapTemp, (bitmapTemp.width*0.2).toInt(),
+        var bitmapTemp = BitmapFactory.decodeResource(surface.resources, R.drawable.player1)
+        imageToRight = Bitmap.createScaledBitmap(bitmapTemp, (bitmapTemp.width*0.2).toInt(),
                (bitmapTemp.height*0.2).toInt(),true)
-        rectPlayer = Rect(this.x,this.y,this.x+image.width,this.y+image.height)
+
+        bitmapTemp = BitmapFactory.decodeResource(surface.resources, R.drawable.player1)
+        imageToLeft = Bitmap.createScaledBitmap(bitmapTemp, (bitmapTemp.width*0.2).toInt(),
+            (bitmapTemp.height*0.2).toInt(),true)
+        rectPlayer = Rect(this.x,this.y,this.x+imageToRight.width,this.y+imageToRight.height)
 
     }
 
     fun update(){
-        rectPlayer.set(this.x,this.y,this.x+image.width,this.y+image.height)
+        rectPlayer.set(this.x,this.y,this.x+imageToRight.width,this.y+imageToRight.height)
 
     }
     fun draw(canvas: Canvas?){
         update()
 
-        canvas!!.drawBitmap(image,rectPlayer.left.toFloat(),rectPlayer.top.toFloat(), Paint())
+        canvas!!.drawBitmap(imageToRight,rectPlayer.left.toFloat(),rectPlayer.top.toFloat(), Paint())
     }
 
     fun deplacement(toRight:Boolean, toLeft:Boolean, list: List<Rectangle>){
-        if(toLeft && canToLeft) {
-            move(-15,list)
+        if(toLeft) {
+            direction = 0
+            move(-speedPlayer,list)
         }
-        if(toRight && canToRight){
-            move(15,list)
+        if(toRight){
+            direction = 1
+            move(speedPlayer,list)
         }
         if(isJumping && cntJump <= timeJump) {
             cntJump++

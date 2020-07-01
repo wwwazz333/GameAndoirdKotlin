@@ -10,9 +10,7 @@ class Enemy(surface: Drawing, x:Int, y:Int, idImage:Int? = null) {
 
     var x:Int = x
     var y:Int = y
-    val rectPlayer:Rect
-    var canToRight = true
-    var canToLeft = true
+    val rectEnemy:Rect
     var canJump = true
     val image:Bitmap
     var surface:Drawing? = null
@@ -24,26 +22,26 @@ class Enemy(surface: Drawing, x:Int, y:Int, idImage:Int? = null) {
         var bitmapTemp = BitmapFactory.decodeResource(surface.resources, idImage!!)
         image = Bitmap.createScaledBitmap(bitmapTemp, (bitmapTemp.width*0.2).toInt(),
             (bitmapTemp.height*0.2).toInt(),true)
-        rectPlayer = Rect(this.x,this.y,this.x+image.width,this.y+image.height)
+        rectEnemy = Rect(this.x,this.y,this.x+image.width,this.y+image.height)
 
     }
 
     fun update(){
-        rectPlayer.set(this.x,this.y,this.x+image.width,this.y+image.height)
+        rectEnemy.set(this.x,this.y,this.x+image.width,this.y+image.height)
 
     }
     fun draw(canvas: Canvas?){
         update()
 
-        canvas!!.drawBitmap(image,rectPlayer.left.toFloat(),rectPlayer.top.toFloat(), Paint())
+        canvas!!.drawBitmap(image,rectEnemy.left.toFloat(),rectEnemy.top.toFloat(), Paint())
     }
 
-    fun deplacement(toRight:Boolean, toLeft:Boolean, list: List<Rectangle>){
-        if(toLeft && canToLeft) {
-            move(-15,list)
+    fun deplacement(player:Player, list: List<Rectangle>){
+        if(player.rectPlayer.centerX() < rectEnemy.centerX()) {
+            move(-speedEnemy,list)
         }
-        if(toRight && canToRight){
-            move(15,list)
+        if(player.rectPlayer.centerX() > rectEnemy.centerX()){
+            move(speedEnemy,list)
         }
         if(isJumping && cntJump <= timeJump) {
             cntJump++
@@ -71,7 +69,7 @@ class Enemy(surface: Drawing, x:Int, y:Int, idImage:Int? = null) {
     }
 
     fun touch(rect: Rectangle):Boolean{
-        return rectPlayer.right >= rect.x && rectPlayer.left <= rect.x+rect.w && rectPlayer.top <= rect.y+rect.h && rectPlayer.bottom >= rect.y
+        return rectEnemy.right >= rect.x && rectEnemy.left <= rect.x+rect.w && rectEnemy.top <= rect.y+rect.h && rectEnemy.bottom >= rect.y
     }
 
     fun touchOne(list:List<Rectangle>):Boolean{
@@ -87,7 +85,7 @@ class Enemy(surface: Drawing, x:Int, y:Int, idImage:Int? = null) {
         }
     }
     fun gravity(l:List<Rectangle>){
-        if (rectPlayer.bottom < surface!!.height && !touchOne(l) && !isJumping){
+        if (rectEnemy.bottom < surface!!.height && !touchOne(l) && !isJumping){
             y += 15
             update()
             if(touchOne(l)) {

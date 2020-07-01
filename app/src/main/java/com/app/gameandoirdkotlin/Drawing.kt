@@ -15,7 +15,9 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
     val screenSizeWidth:Int
     val screenSizeHeight:Int
     var cnt = 0
-    val p:Player
+    val player:Player
+    val enemy:Enemy
+
     var allRect:List<Rectangle>
     val white:Paint = Paint()
 
@@ -27,7 +29,8 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
 
         println("$screenSizeWidth * $screenSizeHeight")
 
-        p = Player(this,0,500,R.drawable.stickman)
+        player = Player(this,0,500,R.drawable.player1)
+        enemy = Enemy(this,screenSizeWidth-100,500,R.drawable.enemy)
         val w = Rectangle(((screenSizeWidth/3)*0.5).toInt(),(screenSizeHeight/3)*2,screenSizeWidth/5, 30, Color.RED)
         val w1 = Rectangle(((screenSizeWidth/3)*1.5).toInt(),(screenSizeHeight/3)*2,screenSizeWidth/5, 30, Color.RED)
         allRect = listOf<Rectangle>(w, w1)
@@ -54,7 +57,7 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
 
             if (event.getX(i) < screenSizeWidth / 5) toLeft = true
 
-            if (event.getX(i) > (screenSizeWidth/5)*4) p.jump()
+            if (event.getX(i) > (screenSizeWidth/5)*4) player.jump()
         }
 
 
@@ -79,15 +82,20 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
         super.draw(canvas)
         cnt++
 
-        p.update()
-        p.deplacement(toRight, toLeft,allRect)
-        p.gravity(allRect)
+        //player.update()
+        player.deplacement(toRight, toLeft,allRect)
+        player.gravity(allRect)
+
+        enemy.update()
+        enemy.deplacement(player,allRect)
+        enemy.gravity(allRect)
 
 
         //dessin
         canvas!!.drawColor(Color.BLACK)//background
 
-        p.draw(canvas)
+        player.draw(canvas)
+        enemy.draw(canvas)
         for(rect in allRect){
             rect.draw(canvas)
         }
