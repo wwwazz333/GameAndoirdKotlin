@@ -4,7 +4,7 @@ import android.graphics.*
 
 
 
-class Player(surface: Drawing, x:Int, y:Int, idImage:Int? = null) {
+class Enemy(surface: Drawing, x:Int, y:Int, idImage:Int? = null) {
 
 
 
@@ -23,7 +23,7 @@ class Player(surface: Drawing, x:Int, y:Int, idImage:Int? = null) {
         this.surface = surface
         var bitmapTemp = BitmapFactory.decodeResource(surface.resources, idImage!!)
         image = Bitmap.createScaledBitmap(bitmapTemp, (bitmapTemp.width*0.2).toInt(),
-               (bitmapTemp.height*0.2).toInt(),true)
+            (bitmapTemp.height*0.2).toInt(),true)
         rectPlayer = Rect(this.x,this.y,this.x+image.width,this.y+image.height)
 
     }
