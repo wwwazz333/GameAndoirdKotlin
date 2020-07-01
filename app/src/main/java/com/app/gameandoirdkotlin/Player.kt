@@ -25,7 +25,7 @@ class Player(surface: Drawing, x:Int, y:Int, idImage:Int? = null) {
         imageToRight = Bitmap.createScaledBitmap(bitmapTemp, (bitmapTemp.width*0.2).toInt(),
                (bitmapTemp.height*0.2).toInt(),true)
 
-        bitmapTemp = BitmapFactory.decodeResource(surface.resources, R.drawable.player1)
+        bitmapTemp = BitmapFactory.decodeResource(surface.resources, R.drawable.player1_left)
         imageToLeft = Bitmap.createScaledBitmap(bitmapTemp, (bitmapTemp.width*0.2).toInt(),
             (bitmapTemp.height*0.2).toInt(),true)
         rectPlayer = Rect(this.x,this.y,this.x+imageToRight.width,this.y+imageToRight.height)
@@ -39,10 +39,13 @@ class Player(surface: Drawing, x:Int, y:Int, idImage:Int? = null) {
     fun draw(canvas: Canvas?){
         update()
 
-        canvas!!.drawBitmap(imageToRight,rectPlayer.left.toFloat(),rectPlayer.top.toFloat(), Paint())
+        if(direction == 1)canvas!!.drawBitmap(imageToRight,rectPlayer.left.toFloat(),rectPlayer.top.toFloat(), Paint())
+        else if(direction == 0)canvas!!.drawBitmap(imageToLeft,rectPlayer.left.toFloat(),rectPlayer.top.toFloat(), Paint())
+
+
     }
 
-    fun deplacement(toRight:Boolean, toLeft:Boolean, list: List<Rectangle>){
+    fun actions(toRight:Boolean, toLeft:Boolean, list: List<Rectangle>){
         if(toLeft) {
             direction = 0
             move(-speedPlayer,list)
@@ -60,6 +63,7 @@ class Player(surface: Drawing, x:Int, y:Int, idImage:Int? = null) {
             isJumping = false
             cntJump = 0
         }
+        gravity(list)
     }
 
     fun move(nbr:Int,list:List<Rectangle>){

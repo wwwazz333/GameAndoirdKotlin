@@ -12,35 +12,44 @@ class Enemy(surface: Drawing, x:Int, y:Int, idImage:Int? = null) {
     var y:Int = y
     val rectEnemy:Rect
     var canJump = true
-    val image:Bitmap
+    val imageToRight:Bitmap
+    val imageToLeft:Bitmap
     var surface:Drawing? = null
     var isJumping = false
     var cntJump = 0
+    var direction = 0
 
     init {
         this.surface = surface
-        var bitmapTemp = BitmapFactory.decodeResource(surface.resources, idImage!!)
-        image = Bitmap.createScaledBitmap(bitmapTemp, (bitmapTemp.width*0.2).toInt(),
+        var bitmapTemp = BitmapFactory.decodeResource(surface.resources, R.drawable.enemy1_right)
+        imageToRight = Bitmap.createScaledBitmap(bitmapTemp, (bitmapTemp.width*0.2).toInt(),
             (bitmapTemp.height*0.2).toInt(),true)
-        rectEnemy = Rect(this.x,this.y,this.x+image.width,this.y+image.height)
+
+        bitmapTemp = BitmapFactory.decodeResource(surface.resources, R.drawable.enemy1_left)
+        imageToLeft = Bitmap.createScaledBitmap(bitmapTemp, (bitmapTemp.width*0.2).toInt(),
+            (bitmapTemp.height*0.2).toInt(),true)
+        rectEnemy = Rect(this.x,this.y,this.x+imageToRight.width,this.y+imageToRight.height)
 
     }
 
     fun update(){
-        rectEnemy.set(this.x,this.y,this.x+image.width,this.y+image.height)
+        rectEnemy.set(this.x,this.y,this.x+imageToRight.width,this.y+imageToRight.height)
 
     }
     fun draw(canvas: Canvas?){
         update()
 
-        canvas!!.drawBitmap(image,rectEnemy.left.toFloat(),rectEnemy.top.toFloat(), Paint())
+        if(direction == 1)canvas!!.drawBitmap(imageToRight,rectEnemy.left.toFloat(),rectEnemy.top.toFloat(), Paint())
+        else if(direction == 0)canvas!!.drawBitmap(imageToLeft,rectEnemy.left.toFloat(),rectEnemy.top.toFloat(), Paint())
     }
 
-    fun deplacement(player:Player, list: List<Rectangle>){
+    fun actions(player:Player, list: List<Rectangle>){
         if(player.rectPlayer.centerX() < rectEnemy.centerX()) {
+            direction = 0
             move(-speedEnemy,list)
         }
         if(player.rectPlayer.centerX() > rectEnemy.centerX()){
+            direction = 1
             move(speedEnemy,list)
         }
         if(isJumping && cntJump <= timeJump) {
@@ -52,6 +61,7 @@ class Enemy(surface: Drawing, x:Int, y:Int, idImage:Int? = null) {
             isJumping = false
             cntJump = 0
         }
+        gravity(list)
     }
 
     fun move(nbr:Int,list:List<Rectangle>){
