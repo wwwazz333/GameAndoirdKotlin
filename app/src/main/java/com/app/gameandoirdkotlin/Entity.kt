@@ -37,8 +37,6 @@ abstract class Entity(surface: Drawing, x:Int, y:Int) {
         this.surface = surface
         direction = if(x <= surface.width) 1
         else 0
-
-        var test = Rect()
     }
 
     fun update(){
@@ -78,7 +76,15 @@ abstract class Entity(surface: Drawing, x:Int, y:Int) {
     }
 
     fun touch(rect: Rectangle):Boolean{
-        return this.rect.right >= rect.x && this.rect.left <= rect.x+rect.w && this.rect.top <= rect.y+rect.h && this.rect.bottom >= rect.y
+        if(rect.type == "wall"){
+            return this.rect.right >= rect.x && this.rect.left <= rect.x+rect.w && this.rect.top <= rect.y+rect.h && this.rect.bottom >= rect.y
+        }
+        else if(rect.type == "platforme"){
+            return this.rect.right >= rect.x && this.rect.left <= rect.x+rect.w && this.rect.top <= rect.y+rect.h && this.rect.bottom >= rect.y && this.rect.bottom < rect.rect.bottom
+        }
+        else{
+            return false
+        }
     }
     fun attackTouch(entity: Entity):Boolean{
         update()

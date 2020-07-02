@@ -32,8 +32,8 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
         enemy = Enemy(this,screenSizeWidth-100,500, player)
         enemy.canMove = false
 
-        val w = Rectangle(((screenSizeWidth/3)*0.5).toInt(),(screenSizeHeight/3)*2,screenSizeWidth/5, 30, Color.RED)
-        val w1 = Rectangle(((screenSizeWidth/3)*1.5).toInt(),(screenSizeHeight/3)*2,screenSizeWidth/5, 30, Color.RED)
+        val w = Rectangle("platforme", ((screenSizeWidth/3)*0.5).toInt(),(screenSizeHeight/3)*2,screenSizeWidth/5, 30, Color.RED)
+        val w1 = Rectangle("platforme", ((screenSizeWidth/3)*1.5).toInt(),(screenSizeHeight/3)*2,screenSizeWidth/5, 30, Color.RED)
         allRect = listOf<Rectangle>(w, w1)
 
         white.color = Color.WHITE
