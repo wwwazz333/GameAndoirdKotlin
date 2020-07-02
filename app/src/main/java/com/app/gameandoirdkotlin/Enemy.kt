@@ -4,11 +4,19 @@ import android.graphics.*
 
 
 
-class Enemy(surface: Drawing, x:Int, y:Int):Entity(surface, x, y) {
+class Enemy(surface: Drawing, x:Int, y:Int, player: Player): Entity(surface, x, y) {
+
+    override val lifeMax: Int = 100
+    override var life: Int = lifeMax
 
     override val rect:Rect
+    override val rectAttackRight: Rect
+    override val rectAttackLeft: Rect
+    val player:Player = player
+
     override val imageToRight:Bitmap
     override val imageToLeft:Bitmap
+
 
     init {
         var bitmapTemp = BitmapFactory.decodeResource(surface.resources, R.drawable.enemy1_right)
@@ -19,18 +27,23 @@ class Enemy(surface: Drawing, x:Int, y:Int):Entity(surface, x, y) {
         imageToLeft = Bitmap.createScaledBitmap(bitmapTemp, (bitmapTemp.width*0.2).toInt(),
             (bitmapTemp.height*0.2).toInt(),true)
         rect = Rect(this.x,this.y,this.x+imageToRight.width,this.y+imageToRight.height)
+        rectAttackRight = Rect(rect.centerX(), rect.top,rect.right + rangAttack, rect.bottom)
+        rectAttackLeft = Rect(rect.left - rangAttack, rect.top,rect.centerX(), rect.bottom)
 
     }
 
-    override fun actions(player:Player, list: List<Rectangle>){
-        if(player.rect.centerX() < rect.centerX()) {
-            direction = 0
-            move(-speedEnemy, list)
+    override fun actions(list: List<Rectangle>){
+        if(canMove){
+            if(player.rect.centerX() < rect.centerX()) {
+                direction = 0
+                move(-speedEnemy, list)
+            }
+            if(player.rect.centerX() > rect.centerX()){
+                direction = 1
+                move(speedEnemy, list)
+            }
         }
-        if(player.rect.centerX() > rect.centerX()){
-            direction = 1
-            move(speedEnemy, list)
-        }
+
         if(isJumping && cntJump <= timeJump) {
             cntJump++
             y -= (surface!!.height/3)/timeJump
@@ -42,9 +55,4 @@ class Enemy(surface: Drawing, x:Int, y:Int):Entity(surface, x, y) {
         }
         gravity(list)
     }
-
-    override fun actions(toRight: Boolean, toLeft: Boolean, list: List<Rectangle>) {
-        TODO("résoudre pb des  overrides")
-    }
-
 }

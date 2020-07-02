@@ -6,7 +6,7 @@ import android.graphics.Rect
 
 class Rectangle(x:Int, y:Int, w:Int, h:Int, color:Int) {
 
-    val rect:Rect
+    var rect:Rect
     val paint:Paint
     var x = x
     var y = y

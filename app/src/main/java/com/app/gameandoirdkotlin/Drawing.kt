@@ -10,8 +10,7 @@ import android.view.View
 
 class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : View(context) {
 
-    var toLeft = false
-    var toRight = false
+
     val screenSizeWidth:Int
     val screenSizeHeight:Int
     var cnt = 0
@@ -30,7 +29,9 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
         println("$screenSizeWidth * $screenSizeHeight")
 
         player = Player(this,0,500)
-        enemy = Enemy(this,screenSizeWidth-100,500)
+        enemy = Enemy(this,screenSizeWidth-100,500, player)
+        enemy.canMove = false
+
         val w = Rectangle(((screenSizeWidth/3)*0.5).toInt(),(screenSizeHeight/3)*2,screenSizeWidth/5, 30, Color.RED)
         val w1 = Rectangle(((screenSizeWidth/3)*1.5).toInt(),(screenSizeHeight/3)*2,screenSizeWidth/5, 30, Color.RED)
         allRect = listOf<Rectangle>(w, w1)
@@ -53,11 +54,22 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
 
 
         for(i in 0..pointerCount-1){
-            if(event.getX(i) > (screenSizeWidth / 5) && event.getX(i) < (screenSizeWidth/5)*2) toRight = true
+            if(event.getX(i) > (screenSizeWidth / 5) && event.getX(i) < (screenSizeWidth/5)*2){
+                player.toRight = true
+                player.toLeft = false
+            }
 
-            if (event.getX(i) < screenSizeWidth / 5) toLeft = true
+            if (event.getX(i) < screenSizeWidth / 5){
+                player.toLeft = true
+                player.toRight = false
+            }
 
-            if (event.getX(i) > (screenSizeWidth/5)*4) player.jump()
+            if (event.getX(i) > (screenSizeWidth/5)*4 && event.getY(i) > screenSizeHeight/2){
+                player.jump()
+            }
+            if(event.getX(i) > (screenSizeWidth/5)*4 && event.getY(i) < screenSizeHeight/2){
+                player.attack(enemy)
+            }
         }
 
 
@@ -67,9 +79,9 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
 
             }
             MotionEvent.ACTION_UP -> {
-                toRight = false
+                player.toRight = false
 
-                toLeft = false
+                player.toLeft = false
 
             }
         }
@@ -82,9 +94,9 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
         super.draw(canvas)
         cnt++
 
-        player.actions(toRight, toLeft,allRect)
+        player.actions(allRect)
 
-        enemy.actions(player,allRect)
+        enemy.actions(allRect)
 
 
         //dessin
