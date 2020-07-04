@@ -6,9 +6,11 @@ import android.graphics.Paint
 import android.graphics.Rect
 import kotlin.concurrent.thread
 
-abstract class Entity(surface: Drawing, x:Int, y:Int) {
+abstract class Entity(surface: Drawing, x:Int, y:Int, sizeColone:Int, sizeLigne:Int) {
     var x:Int = x
     var y:Int = y
+    var sizeColone = sizeColone
+    var sizeLigne = sizeLigne
     var cntJump = 0
     var direction:Int
     abstract val lifeMax:Int

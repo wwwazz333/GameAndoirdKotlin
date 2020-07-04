@@ -18,22 +18,34 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
     val enemy:Enemy
 
     var allRect:List<Rectangle>
+    val colones:ArrayList<Int> = ArrayList()
+    val ligne:ArrayList<Int> = ArrayList()
     val white:Paint = Paint()
 
-    //TODO("creat IA and diviser surface")
 
     init {
         this.screenSizeWidth = screenSizeWidth
         this.screenSizeHeight = screenSizeHeight
 
+        var nbrColones = 7
+        var nbrLigne = 7
+        for(i in 0 until nbrColones){
+            colones.add((this.screenSizeWidth/nbrColones)*i)
+            for(j in 0 until nbrLigne){
+                ligne.add((this.screenSizeHeight/nbrLigne)*j)
+            }
+        }
+
+
+
         println("$screenSizeWidth * $screenSizeHeight")
 
-        player = Player(this,0,500)
-        enemy = Enemy(this,screenSizeWidth-100,500, player)
+        player = Player(this,0,500,colones[1], ligne[1])
+        enemy = Enemy(this,screenSizeWidth-100,500, player,colones[1], ligne[1])
         enemy.canMove = false
 
-        val w = Rectangle("platforme", ((screenSizeWidth/3)*0.5).toInt(),(screenSizeHeight/3)*2,screenSizeWidth/5, 30, Color.RED)
-        val w1 = Rectangle("platforme", ((screenSizeWidth/3)*1.5).toInt(),(screenSizeHeight/3)*2,screenSizeWidth/5, 30, Color.RED)
+        val w = Rectangle("platforme", colones[1],ligne[5],colones[2], ligne[1]/10, Color.RED)
+        val w1 = Rectangle("platforme", colones[4],ligne[5],colones[2], ligne[1]/10, Color.RED)
         allRect = listOf<Rectangle>(w, w1)
 
         white.color = Color.WHITE
@@ -111,7 +123,9 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
         canvas.drawLine(((screenSizeWidth/5)*2).toFloat(), 0F, ((screenSizeWidth / 5)*2).toFloat(), screenSizeHeight.toFloat(),white)
         canvas.drawLine(((screenSizeWidth/5)*4).toFloat(), 0F, ((screenSizeWidth / 5)*4).toFloat(), screenSizeHeight.toFloat(),white)
 
+
         invalidate()
     }
+
 }
 
