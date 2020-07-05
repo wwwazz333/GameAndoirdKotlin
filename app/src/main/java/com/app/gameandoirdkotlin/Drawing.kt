@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.view.MotionEvent
+import android.view.Surface
 import android.view.View
 
 
@@ -14,12 +15,21 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
     val screenSizeWidth:Int
     val screenSizeHeight:Int
     var cnt = 0
+    var pause = false
     val player:Player
     val enemy:Enemy
 
-    var allRect:List<Rectangle>
+    var rightBtn:Button
+    var leftBtn:Button
+    var jumpBtn:Button
+    var attackBtn:Button
+    var pauseBtn:Button
+
+    var rectList:List<Rectangle>
     val colones:ArrayList<Int> = ArrayList()
     val ligne:ArrayList<Int> = ArrayList()
+    val btnList:List<Button>
+
     val white:Paint = Paint()
 
 
@@ -46,17 +56,50 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
 
         val w = Rectangle("platforme", colones[1],ligne[5],colones[2], ligne[1]/10, Color.RED)
         val w1 = Rectangle("platforme", colones[4],ligne[5],colones[2], ligne[1]/10, Color.RED)
-        allRect = listOf<Rectangle>(w, w1)
+        rectList = listOf<Rectangle>(w, w1)
+
+
+        rightBtn = Button(this, R.drawable.right, colones[1], ligne[6], colones[1]/2, ligne[1], Runnable {
+            player.toRight = true
+            player.toLeft = false })
+        leftBtn = Button(this, R.drawable.left, colones[0], ligne[6], colones[1]/2, ligne[1], Runnable {
+            player.toLeft = true
+            player.toRight = false })
+        jumpBtn = Button(this, R.drawable.jump, colones[6], ligne[5], colones[1], ligne[2], Runnable { player.jump() })
+        attackBtn = Button(this, R.drawable.sword, colones[6], ligne[4], colones[1]/2, ligne[1], Runnable { player.attack(enemy) })
+        pauseBtn = Button(this, R.drawable.pause, screenSizeWidth/2-25, ligne[0], 50, 50, Runnable { pause = true })
+
+
+
+
+        btnList = listOf(rightBtn, leftBtn, jumpBtn, attackBtn, pauseBtn)
+
 
         white.color = Color.WHITE
 
-
-
-        update()
     }
 
-    fun update(){
-        //perso.set(x,y,x+50,y+50)
+    fun rightBtnSettings(x:Int, y:Int, w:Int){
+        rightBtn = Button(this, R.drawable.right, x, y, w, ligne[1], Runnable {
+            player.toRight = true
+            player.toLeft = false })
+    }
+    fun leftBtnSettings(x:Int, y:Int, w:Int){
+        leftBtn = Button(this, R.drawable.left, x, y, w, ligne[1], Runnable {
+            player.toLeft = true
+            player.toRight = false })
+    }
+    fun attackBtnSettings(x:Int, y:Int, w:Int){
+        jumpBtn = Button(this, R.drawable.jump, x, y, w, ligne[1], Runnable { player.jump() })
+    }
+    fun jumpBtnSettings(x:Int, y:Int, w:Int){
+        attackBtn = Button(this, R.drawable.sword, x, y, w, ligne[1], Runnable { player.attack(enemy) })
+    }
+
+    fun actions(){
+        player.actions(rectList)
+
+        enemy.actions(rectList)
     }
     
 
@@ -64,37 +107,29 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
 
         val pointerCount: Int = event!!.pointerCount
 
+        if(!pause){
+            for(i in 0..pointerCount-1){
 
-        for(i in 0..pointerCount-1){
-            if(event.getX(i) > (screenSizeWidth / 5) && event.getX(i) < (screenSizeWidth/5)*2){
-                player.toRight = true
-                player.toLeft = false
-            }
-
-            if (event.getX(i) < screenSizeWidth / 5){
-                player.toLeft = true
-                player.toRight = false
-            }
-
-            if (event.getX(i) > (screenSizeWidth/5)*4 && event.getY(i) > screenSizeHeight/2){
-                player.jump()
-            }
-            if(event.getX(i) > (screenSizeWidth/5)*4 && event.getY(i) < screenSizeHeight/2){
-                player.attack(enemy)
+                for (btn in btnList){
+                    btn.onClick(event.getX(i), event.getY(i))
+                }
             }
         }
+
 
 
         when (event.action) {
 
             MotionEvent.ACTION_DOWN -> {
+                if(pause) pause = false
 
             }
             MotionEvent.ACTION_UP -> {
-                player.toRight = false
+                if(!pause){
+                    player.toRight = false
 
-                player.toLeft = false
-
+                    player.toLeft = false
+                }
             }
         }
 
@@ -104,27 +139,42 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
 
     override fun draw(canvas: Canvas?) {
         super.draw(canvas)
-        cnt++
+        if (pause){
+            canvas!!.drawColor(Color.BLACK)//background
+            white.textSize = 200F
 
-        player.actions(allRect)
-
-        enemy.actions(allRect)
+            canvas!!.drawText("Pause", colones[2].toFloat(), ligne[1].toFloat(),white)
 
 
-        //dessin
-        canvas!!.drawColor(Color.BLACK)//background
-
-        player.draw(canvas)
-        enemy.draw(canvas)
-        for(rect in allRect){
-            rect.draw(canvas)
         }
-        canvas.drawLine((screenSizeWidth / 5).toFloat(), 0F, (screenSizeWidth / 5).toFloat(), screenSizeHeight.toFloat(),white)
-        canvas.drawLine(((screenSizeWidth/5)*2).toFloat(), 0F, ((screenSizeWidth / 5)*2).toFloat(), screenSizeHeight.toFloat(),white)
-        canvas.drawLine(((screenSizeWidth/5)*4).toFloat(), 0F, ((screenSizeWidth / 5)*4).toFloat(), screenSizeHeight.toFloat(),white)
+        else{
+            cnt++
 
+            actions()
+
+
+            //dessin
+            canvas!!.drawColor(Color.BLACK)//background
+
+            player.draw(canvas)
+            enemy.draw(canvas)
+            for(rect in rectList){
+                rect.draw(canvas)
+            }
+            for (btn in btnList){
+                btn.draw(canvas)
+            }
+        }
 
         invalidate()
+    }
+
+    fun pause(){
+        println("pause...")
+        pause = true
+    }
+    fun resume(){
+        println("resume...")
     }
 
 }

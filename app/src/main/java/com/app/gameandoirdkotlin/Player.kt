@@ -21,7 +21,7 @@ class Player(surface: Drawing, x:Int, y:Int, sizeColone:Int, sizeLigne:Int):Enti
     var toLeft = false
 
     init {
-        var resize = 0.4
+        var resize = 0.1
         var bitmapTemp = BitmapFactory.decodeResource(surface.resources, R.drawable.player1)
         imageToRight = Bitmap.createScaledBitmap(bitmapTemp, (bitmapTemp.width*resize).toInt(),
                (bitmapTemp.height*resize).toInt(),true)

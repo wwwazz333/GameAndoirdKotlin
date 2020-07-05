@@ -47,6 +47,7 @@ class QuizView : AppCompatActivity() {
         } else{
             //Toast.makeText(this, "done", Toast.LENGTH_SHORT).show()
             var done = AlertDialog.Builder(this)
+            done.setCancelable(false)
             done.setTitle("Fin")
             done.setMessage("Vous avez fini le quiz.\nVous avez eu : ${bonneReponses}/${quizs.size}")
             done.setPositiveButton("OK") { dialog: DialogInterface?, which: Int ->

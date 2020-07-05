@@ -1,26 +1,47 @@
 package com.app.gameandoirdkotlin
 
-import android.os.Build
+import android.content.Context
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.WindowManager
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import java.lang.Exception
 
 class GameActivity : AppCompatActivity() {
+
+    lateinit var game:Drawing
+    val settingsCommande = getSharedPreferences("SavePara", Context.MODE_PRIVATE)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
-        setContentView(Drawing(this, displayMetrics.widthPixels, displayMetrics.heightPixels))
         hideSystemUI()
+        game = Drawing(this, displayMetrics.widthPixels, displayMetrics.heightPixels)
+        setContentView(game)
+
+
+
 
 
     }
 
+    override fun onPause() {
+        super.onPause()
+        try {
+            game.pause()
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        hideSystemUI()
+        game.resume()
+    }
 
 
     private fun hideSystemUI() {

@@ -19,7 +19,7 @@ class Enemy(surface: Drawing, x:Int, y:Int, player: Player, sizeColone:Int, size
 
 
     init {
-        var resize = 0.4
+        var resize = 0.1
         var bitmapTemp = BitmapFactory.decodeResource(surface.resources, R.drawable.enemy1_right)
         imageToRight = Bitmap.createScaledBitmap(bitmapTemp, (bitmapTemp.width*resize).toInt(),
             (bitmapTemp.height*resize).toInt(),true)
