@@ -53,9 +53,8 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun onClickSupp(view: View){
-        var intent = Intent(Intent.ACTION_DELETE)
-        intent.setData(Uri.parse("package:com.android.chrome"))
+    fun onClickWifi(view: View){
+        val intent = Intent(this, ConnectWifiP2pActivity::class.java)
         startActivity(intent)
     }
     fun onClickExit(view: View){

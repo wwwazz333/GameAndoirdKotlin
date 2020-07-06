@@ -11,7 +11,7 @@ import java.lang.Exception
 class GameActivity : AppCompatActivity() {
 
     lateinit var game:Drawing
-    val settingsCommande = getSharedPreferences("SavePara", Context.MODE_PRIVATE)
+    //val settingsCommande = getSharedPreferences("SavePara", Context.MODE_PRIVATE)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

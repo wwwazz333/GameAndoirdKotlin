@@ -9,12 +9,12 @@
 
 
     <Button
-        android:id="@+id/suppChrome"
+        android:id="@+id/wifi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delete"
+        android:text="Wifi"
         android:background="@drawable/arrondi_btn"
-        android:onClick="onClickSupp"
+        android:onClick="onClickWifi"
         android:layout_marginTop="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
