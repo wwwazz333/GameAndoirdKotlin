@@ -49,6 +49,17 @@
             android:popupBackground="@color/background_dark" />
 
     </LinearLayout>
+    <TextView
+        android:id="@+id/commandeSettings"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="25dp"
+        android:text="Gérer les commandes"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        android:onClick="CommandSettingsStart"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout" />
 
 
 

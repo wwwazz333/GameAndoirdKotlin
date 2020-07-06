@@ -19,7 +19,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ChatBluetooth"></activity>
+        <activity android:name=".ViewSettingsCommand"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".ChatBluetooth" />
         <activity android:name=".BluetoothActivity" />
         <activity android:name=".ConnectWifiP2pActivity" />
         <activity

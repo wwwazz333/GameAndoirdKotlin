@@ -9,6 +9,8 @@ class Enemy(surface: Drawing, x:Int, y:Int, player: Player, sizeColone:Int, size
     override val lifeMax: Int = 100
     override var life: Int = lifeMax
 
+    var cntTimePlayerUpper:Int = 0
+
     override val rect:Rect
 
     val player:Player = player
@@ -43,13 +45,28 @@ class Enemy(surface: Drawing, x:Int, y:Int, player: Player, sizeColone:Int, size
 
     override fun actions(list: List<Rectangle>){
         if(canMove){
-            if(player.rect.centerX() < rect.centerX()) {
+            if(player.rect.centerX() < rect.centerX()) {//si player a gauche
                 direction = 0
-                move(-speedEnemy, list)
+                if(player.rect.centerX() < rectAttackLeft.left+10){
+                    move(-speedEnemy, list)
+                }else if(attackTouch(player)){
+                    attack(player)
+                }
             }
-            if(player.rect.centerX() > rect.centerX()){
+            if(player.rect.centerX() > rect.centerX()){//si player a droite
                 direction = 1
-                move(speedEnemy, list)
+                if(player.rect.centerX() > rectAttackRight.right-10){
+                    move(speedEnemy, list)
+                }else if(attackTouch(player)){
+                    attack(player)
+                }
+            }
+            if(player.rect.bottom < rect.top){
+                cntTimePlayerUpper++
+                if(cntTimePlayerUpper>30){
+                    cntTimePlayerUpper = 0
+                    jump()
+                }
             }
         }
 

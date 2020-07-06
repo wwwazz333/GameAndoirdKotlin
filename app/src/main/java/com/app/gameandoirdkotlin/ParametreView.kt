@@ -1,6 +1,5 @@
 package com.app.gameandoirdkotlin
 
-import android.R.xml
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -54,6 +53,10 @@ class ParametreView : AppCompatActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
+    }
+    fun CommandSettingsStart(view: View){
+        val intent = Intent(this, ViewSettingsCommand::class.java)
+        startActivity(intent)
     }
 
 

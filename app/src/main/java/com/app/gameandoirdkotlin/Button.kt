@@ -4,14 +4,15 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
-import androidx.core.graphics.scale
 
-class Button(surface: Drawing, idImage:Int, x:Int, y:Int, w:Int, h:Int, action: Runnable) {
-    //TODO("class button")
+class Button(surface: Draw, idImage:Int, x:Int, y:Int, w:Int, h:Int, action: Runnable) {
     var x:Int
     var y:Int
     var w:Int
     var h:Int
+
+    var clicked = false
+    var selected = false
 
     var image:Bitmap
 
@@ -25,7 +26,6 @@ class Button(surface: Drawing, idImage:Int, x:Int, y:Int, w:Int, h:Int, action: 
 
         this.action = action
 
-        var resize = 0.2
         var bitmapTemp = BitmapFactory.decodeResource(surface.resources, idImage)
 
         var width = bitmapTemp.width
@@ -56,7 +56,11 @@ class Button(surface: Drawing, idImage:Int, x:Int, y:Int, w:Int, h:Int, action: 
 
     fun onClick(eventX: Float, eventY: Float){
         if(eventX > x && eventY > y && eventX < x+image.width && eventY < y+image.height){
+            clicked = true
+            selected = !selected
             action()
+        }else{
+            clicked = false
         }
     }
 
