@@ -115,11 +115,12 @@ abstract class Entity(surface: Drawing, x:Int, y:Int, sizeColone:Int, sizeLigne:
         }
     }
     fun gravity(l:List<Rectangle>){
+        var tombe = 20
         if (rect.bottom < surface!!.height && !touchOne(l) && !isJumping){
-            y += 15
+            y += tombe
             update()
             if(touchOne(l)) {
-                y -= 15
+                y -= tombe
                 canJump = true
             }
             else canJump = false

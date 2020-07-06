@@ -21,8 +21,13 @@ class Player(surface: Drawing, x:Int, y:Int, sizeColone:Int, sizeLigne:Int):Enti
     var toLeft = false
 
     init {
-        var resize = 0.1
         var bitmapTemp = BitmapFactory.decodeResource(surface.resources, R.drawable.player1)
+
+        var heightFinal:Float = (sizeLigne).toFloat()
+        var heightStart:Float = bitmapTemp.height.toFloat()
+        var resize:Float = heightFinal/heightStart
+
+
         imageToRight = Bitmap.createScaledBitmap(bitmapTemp, (bitmapTemp.width*resize).toInt(),
                (bitmapTemp.height*resize).toInt(),true)
 
@@ -30,6 +35,8 @@ class Player(surface: Drawing, x:Int, y:Int, sizeColone:Int, sizeLigne:Int):Enti
         imageToLeft = Bitmap.createScaledBitmap(bitmapTemp, (bitmapTemp.width*resize).toInt(),
             (bitmapTemp.height*resize).toInt(),true)
         rect = Rect(this.x,this.y,this.x+imageToRight.width,this.y+imageToRight.height)
+
+
         bitmapTemp = BitmapFactory.decodeResource(surface.resources, R.drawable.attack_right)
         imageAttackRight = Bitmap.createScaledBitmap(bitmapTemp, rect.width(),
             rect.height(),true)
@@ -53,7 +60,7 @@ class Player(surface: Drawing, x:Int, y:Int, sizeColone:Int, sizeLigne:Int):Enti
 
         if(isJumping && cntJump <= timeJump) {
             cntJump++
-            y -= ((sizeColone*1.5)/timeJump).toInt()
+            y -= ((sizeColone*1.2)/timeJump).toInt()
             update()
         }
         else{
