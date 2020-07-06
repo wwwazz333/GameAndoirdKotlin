@@ -1,9 +1,6 @@
 package com.app.gameandoirdkotlin
 
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Rect
+import android.graphics.*
 import kotlin.concurrent.thread
 
 abstract class Entity(surface: Drawing, x:Int, y:Int, sizeColone:Int, sizeLigne:Int) {
@@ -22,15 +19,18 @@ abstract class Entity(surface: Drawing, x:Int, y:Int, sizeColone:Int, sizeLigne:
     var canJump = true
     var canAttack = true
     var alive = true
+    var attacking = false
 
     abstract val rect: Rect
-    abstract val rectAttackRight:Rect
-    abstract val rectAttackLeft:Rect
+    val rectAttackRight:Rect = Rect()
+    val rectAttackLeft:Rect = Rect()
     var rectAttack:Rect = rectAttackRight
 
     var surface:Drawing? = null
     abstract val imageToRight: Bitmap
     abstract val imageToLeft: Bitmap
+    abstract val imageAttackRight:Bitmap
+    abstract val imageAttackLeft:Bitmap
 
 
 
@@ -43,8 +43,8 @@ abstract class Entity(surface: Drawing, x:Int, y:Int, sizeColone:Int, sizeLigne:
 
     fun update(){
         rect.set(this.x,this.y,this.x+imageToRight.width,this.y+imageToRight.height)
-        rectAttackRight.set(rect.centerX(), rect.top,rect.right + rangAttack, rect.bottom)
-        rectAttackLeft.set(rect.left - rangAttack, rect.top,rect.centerX(), rect.bottom)
+        rectAttackRight.set(rect.centerX(), rect.top,rect.centerX() + rect.width(), rect.bottom)
+        rectAttackLeft.set(rect.centerX() - rect.width(), rect.top,rect.centerX(), rect.bottom)
         if(direction == 1) rectAttack = rectAttackRight
         if(direction == 0) rectAttack = rectAttackLeft
 
@@ -53,8 +53,16 @@ abstract class Entity(surface: Drawing, x:Int, y:Int, sizeColone:Int, sizeLigne:
         if(life > 0){
             update()
 
-            if(direction == 1)canvas!!.drawBitmap(imageToRight,rect.left.toFloat(),rect.top.toFloat(), Paint())
-            else if(direction == 0)canvas!!.drawBitmap(imageToLeft,rect.left.toFloat(),rect.top.toFloat(), Paint())
+            if(direction == 1){//vers la droite
+                if (attacking) canvas!!.drawBitmap(imageAttackRight,rectAttackRight.left.toFloat(), rectAttackRight.top.toFloat(), Paint())
+                canvas!!.drawBitmap(imageToRight,rect.left.toFloat(),rect.top.toFloat(), Paint())
+
+            }
+            else if(direction == 0){//vers la gauche
+                if (attacking) canvas!!.drawBitmap(imageAttackLeft,rectAttackLeft.left.toFloat(), rectAttackLeft.top.toFloat(), Paint())
+                canvas!!.drawBitmap(imageToLeft,rect.left.toFloat(),rect.top.toFloat(), Paint())
+
+            }
         }
         else{
             alive = false
@@ -127,6 +135,7 @@ abstract class Entity(surface: Drawing, x:Int, y:Int, sizeColone:Int, sizeLigne:
         if(canAttack && alive){
             thread{
                 canAttack = false
+                attacking = true
                 if(attackTouch(enemy)){
                     enemy.life -= 25
                     println("life ${enemy} : ${enemy.life}")
@@ -134,7 +143,9 @@ abstract class Entity(surface: Drawing, x:Int, y:Int, sizeColone:Int, sizeLigne:
                 else{
                     println("miss...")
                 }
-                Thread.sleep(500)
+                Thread.sleep(250)
+                attacking = false
+                Thread.sleep(250)
                 canAttack = true
             }
         }

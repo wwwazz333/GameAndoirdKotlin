@@ -11,11 +11,11 @@ class Player(surface: Drawing, x:Int, y:Int, sizeColone:Int, sizeLigne:Int):Enti
 
 
     override val rect:Rect
-    override val rectAttackRight: Rect
-    override val rectAttackLeft: Rect
 
     override val imageToRight:Bitmap
     override val imageToLeft:Bitmap
+    override val imageAttackRight: Bitmap
+    override val imageAttackLeft: Bitmap
 
     var toRight = false
     var toLeft = false
@@ -30,10 +30,13 @@ class Player(surface: Drawing, x:Int, y:Int, sizeColone:Int, sizeLigne:Int):Enti
         imageToLeft = Bitmap.createScaledBitmap(bitmapTemp, (bitmapTemp.width*resize).toInt(),
             (bitmapTemp.height*resize).toInt(),true)
         rect = Rect(this.x,this.y,this.x+imageToRight.width,this.y+imageToRight.height)
-        rectAttackRight = Rect(rect.centerX(), rect.top,rect.right + rangAttack, rect.bottom)
-        rectAttackLeft = Rect(rect.left - rangAttack, rect.top,rect.centerX(), rect.bottom)
-        Rect()
+        bitmapTemp = BitmapFactory.decodeResource(surface.resources, R.drawable.attack_right)
+        imageAttackRight = Bitmap.createScaledBitmap(bitmapTemp, rect.width(),
+            rect.height(),true)
 
+        bitmapTemp = BitmapFactory.decodeResource(surface.resources, R.drawable.attack_left)
+        imageAttackLeft = Bitmap.createScaledBitmap(bitmapTemp, rect.width(),
+            rect.height(),true)
     }
 
     override fun actions(list: List<Rectangle>){

@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onClickWifi(view: View){
-        val intent = Intent(this, ConnectWifiP2pActivity::class.java)
+        val intent = Intent(this, ChatBluetooth::class.java)
         startActivity(intent)
     }
     fun onClickExit(view: View){

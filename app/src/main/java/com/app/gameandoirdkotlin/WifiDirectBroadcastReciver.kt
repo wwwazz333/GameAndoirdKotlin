@@ -1,6 +1,7 @@
 package com.app.gameandoirdkotlin
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.ContentValues.TAG
 import android.content.Context
@@ -17,6 +18,7 @@ class WifiDirectBroadcastReciver(mManager: WifiP2pManager, mChannel:WifiP2pManag
     private var mChannel:WifiP2pManager.Channel = mChannel
     private var mActivity:ConnectWifiP2pActivity = mActivity
 
+    @SuppressLint("MissingPermission")
     override fun onReceive(context: Context?, intent: Intent?) {
         var action: String = intent!!.action.toString()
         when(intent.action){
@@ -30,25 +32,9 @@ class WifiDirectBroadcastReciver(mManager: WifiP2pManager, mChannel:WifiP2pManag
                 }
             }
             WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION ->{
-                if(mManager!=null){
-                    if (ActivityCompat.checkSelfPermission(
-                            mActivity,
-                            Manifest.permission.ACCESS_FINE_LOCATION
-                        ) != PackageManager.PERMISSION_GRANTED
-                    ) {
-                        // TODO: Consider calling
-                        //    ActivityCompat#requestPermissions
-                        // here to request the missing permissions, and then overriding
-                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                        //                                          int[] grantResults)
-                        // to handle the case where the user grants the permission. See the documentation
-                        // for ActivityCompat#requestPermissions for more details.
-                        return
-                    }
-                    mManager.requestPeers(mChannel,mActivity.peerListener)
+                mManager.requestPeers(mChannel, mActivity.peerListener)
                 }
 
-            }
             WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION ->{
 
             }

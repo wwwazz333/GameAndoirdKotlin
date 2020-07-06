@@ -10,12 +10,13 @@ class Enemy(surface: Drawing, x:Int, y:Int, player: Player, sizeColone:Int, size
     override var life: Int = lifeMax
 
     override val rect:Rect
-    override val rectAttackRight: Rect
-    override val rectAttackLeft: Rect
+
     val player:Player = player
 
     override val imageToRight:Bitmap
     override val imageToLeft:Bitmap
+    override val imageAttackRight: Bitmap
+    override val imageAttackLeft: Bitmap
 
 
     init {
@@ -28,8 +29,15 @@ class Enemy(surface: Drawing, x:Int, y:Int, player: Player, sizeColone:Int, size
         imageToLeft = Bitmap.createScaledBitmap(bitmapTemp, (bitmapTemp.width*resize).toInt(),
             (bitmapTemp.height*resize).toInt(),true)
         rect = Rect(this.x,this.y,this.x+imageToRight.width,this.y+imageToRight.height)
-        rectAttackRight = Rect(rect.centerX(), rect.top,rect.right + rangAttack, rect.bottom)
-        rectAttackLeft = Rect(rect.left - rangAttack, rect.top,rect.centerX(), rect.bottom)
+
+        bitmapTemp = BitmapFactory.decodeResource(surface.resources, R.drawable.attack_right)
+        imageAttackRight = Bitmap.createScaledBitmap(bitmapTemp, rect.width(),
+            rect.height(),true)
+
+        bitmapTemp = BitmapFactory.decodeResource(surface.resources, R.drawable.attack_left)
+        imageAttackLeft = Bitmap.createScaledBitmap(bitmapTemp, rect.width(),
+            rect.height(),true)
+
 
     }
 

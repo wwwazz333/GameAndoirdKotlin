@@ -59,10 +59,10 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Vi
         rectList = listOf<Rectangle>(w, w1)
 
 
-        rightBtn = Button(this, R.drawable.right, colones[1], ligne[6], colones[1]/2, ligne[1], Runnable {
+        rightBtn = Button(this, R.drawable.right, colones[1], (ligne[6]-(ligne[1]/1.5)).toInt(), (colones[1]/1.5).toInt(), ligne[1], Runnable {
             player.toRight = true
             player.toLeft = false })
-        leftBtn = Button(this, R.drawable.left, colones[0], ligne[6], colones[1]/2, ligne[1], Runnable {
+        leftBtn = Button(this, R.drawable.left, colones[0], (ligne[6]-(ligne[1]/1.5)).toInt(), (colones[1]/1.5).toInt(), ligne[1], Runnable {
             player.toLeft = true
             player.toRight = false })
         jumpBtn = Button(this, R.drawable.jump, colones[6], ligne[5], colones[1], ligne[2], Runnable { player.jump() })
