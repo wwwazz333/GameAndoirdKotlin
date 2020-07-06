@@ -20,10 +20,15 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Dr
     val enemy:Enemy
 
 
+    val pauseMenuBtn:Button
+    val gameOverMenuBtn:Button
+    val resumeMenuBtn:Button
+    val exitMenuBtn:Button
 
     var rectList:List<Rectangle>
 
     val btnList:List<Button>
+    val pauseBtnList:List<Button>
 
     val white:Paint = Paint()
 
@@ -39,6 +44,11 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Dr
         val w1 = Rectangle("platforme", colones[4],ligne[5],colones[2], ligne[1]/10, Color.RED)
         rectList = listOf<Rectangle>(w, w1)
 
+        pauseMenuBtn = Button(this,R.drawable.pause_menu,colones[2],ligne[0],500, 250, Runnable {  }, false)
+        gameOverMenuBtn = Button(this,R.drawable.game_over_menu,colones[2],ligne[0],500, 250, Runnable {  }, false)
+        gameOverMenuBtn.enabled = false
+        resumeMenuBtn = Button(this,R.drawable.reprendre_menu,colones[2],ligne[3],500, 250, Runnable {  }, false)
+        exitMenuBtn = Button(this,R.drawable.exit_menu,colones[2],ligne[5],500, 250, Runnable {  }, false)
 
         rightBtn.action = Runnable {
             player.toRight = true
@@ -53,7 +63,10 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Dr
 
 
 
+
+
         btnList = listOf(rightBtn, leftBtn, jumpBtn, attackBtn, pauseBtn)
+        pauseBtnList = listOf(pauseMenuBtn, gameOverMenuBtn, resumeMenuBtn, exitMenuBtn)
 
 
         white.color = Color.WHITE
@@ -87,7 +100,12 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Dr
         when (event.action) {
 
             MotionEvent.ACTION_DOWN -> {
-                if(pause) pause = false
+                if(pause) {
+                    //pause = false
+                    for (btn in pauseBtnList){
+                        btn.onClick(event.x, event.y)
+                    }
+                }
 
             }
             MotionEvent.ACTION_UP -> {
@@ -108,15 +126,19 @@ class Drawing(context: Context?, screenSizeWidth:Int, screenSizeHeight:Int) : Dr
         if (pause){
             canvas!!.drawColor(Color.BLACK)//background
             white.textSize = 200F
-            canvas.drawText("Pause", colones[2].toFloat(), ligne[1].toFloat(),white)
-            if (gameOver)canvas.drawText("Game Over", colones[2].toFloat(), ligne[3].toFloat(),white)
+            //canvas.drawText("Pause", colones[2].toFloat(), ligne[1].toFloat(),white)
+            for (btn in pauseBtnList){
+                btn.draw(canvas)
+            }
+
 
 
         }
         else{
             if(!player.alive) {
                 pause = true
-                gameOver = true
+                pauseMenuBtn.enabled = false
+                gameOverMenuBtn.enabled = true
             }
             cnt++
 

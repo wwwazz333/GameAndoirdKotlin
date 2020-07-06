@@ -5,7 +5,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
 
-class Button(surface: Draw, idImage:Int, x:Int, y:Int, w:Int, h:Int, action: Runnable) {
+class Button(surface: Draw, idImage:Int, x:Int, y:Int, w:Int, h:Int, action: Runnable, adjustSize:Boolean = true) {
     var x:Int
     var y:Int
     var w:Int
@@ -13,6 +13,7 @@ class Button(surface: Draw, idImage:Int, x:Int, y:Int, w:Int, h:Int, action: Run
 
     var clicked = false
     var selected = false
+    var enabled = true
 
     var image:Bitmap
 
@@ -30,15 +31,17 @@ class Button(surface: Draw, idImage:Int, x:Int, y:Int, w:Int, h:Int, action: Run
 
         var width = bitmapTemp.width
         var height = bitmapTemp.height
+        if(adjustSize){
+            while(width > w) {
+                width-=5
+                height-=5
+            }
+            while(width < w) {
+                width+=5
+                height+=5
+            }
+        }
 
-        while(width > w) {
-            width-=5
-            height-=5
-        }
-        while(width < w) {
-            width+=5
-            height+=5
-        }
         image = Bitmap.createScaledBitmap(bitmapTemp, (width).toInt(),
             (height).toInt(),true)
 
@@ -47,7 +50,7 @@ class Button(surface: Draw, idImage:Int, x:Int, y:Int, w:Int, h:Int, action: Run
 
 
     fun draw(canvas: Canvas?){
-        canvas!!.drawBitmap(image,x.toFloat(),y.toFloat(), Paint())
+        if(enabled)canvas!!.drawBitmap(image,x.toFloat(),y.toFloat(), Paint())
     }
 
     fun action(){
